@@ -1,6 +1,6 @@
 all:
 	# gcc -Wall -g segmenter.c -o segmenter -lavformat -lavcodec -lavutil
-	gcc -Wall -I/opt/local/include -L/opt/local/lib -g segmenter.c -o segmenter -lavformat -lavcodec -lavutil -lavcore -lbz2 -lm -lz -lfaac -lmp3lame -lx264 -lfaad
+	gcc -Wall -I/opt/local/include -L/opt/local/lib -g segmenter.c -o segmenter -lavformat -lavcodec -lavutil -lbz2 -lm -lz -lfaac -lmp3lame -lx264 -lfaad
 
 clean:
 	rm -r segmenter.dSYM
