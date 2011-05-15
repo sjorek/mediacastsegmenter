@@ -311,7 +311,7 @@ int main(int argc, char **argv)
 
     write_index = !write_index_file(index, tmp_index, segment_duration, output_prefix, http_prefix, first_segment, last_segment, 0, max_tsfiles);
 
-    // Track initial PTS values so we can subtract them out (removing aduio/video delay, since they seem incorrect).
+    // Track initial PTS values so we can subtract them out (removing audio/video delay, since they seem incorrect).
     int64_t initial_audio_pts = -1;
     int64_t initial_video_pts = -1;
 
