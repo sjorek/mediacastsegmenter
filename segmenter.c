@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2011 Stephan Jorek
  * Copyright (c) 2009 Chase Douglas
  *
  * This program is free software; you can redistribute it and/or
@@ -171,7 +172,7 @@ int main(int argc, char **argv)
     int remove_file;
 
     if (argc == 2 && (!strcmp(argv[1],"-v") || !strcmp(argv[1],"--version"))) {
-        fprintf(stdout, "Version: %d.%d.%d (%d)\n", SEGMENTER_MAJOR_VERSION, SEGMENTER_MINOR_VERSION, SEGMENTER_RELEASE_NUMBER, SEGMENTER_ABI_VERSION);
+        fprintf(stdout, "Version: %d.%d.%d (%d)\n\n  Copyright (c) 2011 Stephan Jorek <stephan.jorek@gmail.com>\n  Copyright (c) 2009 Chase Douglas\n", SEGMENTER_MAJOR_VERSION, SEGMENTER_MINOR_VERSION, SEGMENTER_RELEASE_NUMBER, SEGMENTER_ABI_VERSION);
         exit(0);
     }
 
