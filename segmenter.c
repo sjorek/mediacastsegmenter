@@ -19,6 +19,7 @@
 #include <string.h>
 
 #include "libavformat/avformat.h"
+#include "segmenter.h"
 
 static AVStream *add_output_stream(AVFormatContext *output_format_context, AVStream *input_stream) {
     AVCodecContext *input_codec_context;
@@ -169,8 +170,13 @@ int main(int argc, char **argv)
     int i;
     int remove_file;
 
+    if (argc == 2 && (!strcmp(argv[1],"-v") || !strcmp(argv[1],"--version"))) {
+        fprintf(stdout, "Version: %d.%d.%d (%d)\n", SEGMENTER_MAJOR_VERSION, SEGMENTER_MINOR_VERSION, SEGMENTER_RELEASE_NUMBER, SEGMENTER_ABI_VERSION);
+        exit(0);
+    }
+
     if (argc < 6 || argc > 7) {
-        fprintf(stderr, "Usage: %s <input MPEG-TS file> <segment duration in seconds> <output MPEG-TS file prefix> <output m3u8 index file> <http prefix> [<segment window size>]\n", argv[0]);
+        fprintf(stderr, "Usage: %s <input MPEG-TS file> <segment duration in seconds> <output MPEG-TS file prefix> <output m3u8 index file> <http prefix> [<segment window size>]\n       %s [-v|--version]  print version and exit\n", argv[0], argv[0]);
         exit(1);
     }
 
