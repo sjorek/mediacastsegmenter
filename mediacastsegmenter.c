@@ -20,7 +20,7 @@
 #include <string.h>
 
 #include "libavformat/avformat.h"
-#include "segmenter.h"
+#include "mediacastsegmenter.h"
 
 static AVStream *add_output_stream(AVFormatContext *output_format_context, AVStream *input_stream) {
     AVCodecContext *input_codec_context;
@@ -258,7 +258,7 @@ int main(int argc, char **argv)
         exit(1);
     }
     oc->oformat = ofmt;
-    
+
     // Don't print warnings when PTS and DTS are identical.
     ic->flags |= AVFMT_FLAG_IGNDTS;
 
