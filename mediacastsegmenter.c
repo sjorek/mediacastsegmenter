@@ -15,6 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -172,7 +173,7 @@ int main(int argc, char **argv)
     int remove_file;
 
     if (argc == 2 && (!strcmp(argv[1],"-v") || !strcmp(argv[1],"--version"))) {
-        fprintf(stdout, "Version: %d.%d.%d (%d)\n\n  Copyright (c) 2011 Stephan Jorek <stephan.jorek@gmail.com>\n  Copyright (c) 2009 Chase Douglas\n", SEGMENTER_MAJOR_VERSION, SEGMENTER_MINOR_VERSION, SEGMENTER_RELEASE_NUMBER, SEGMENTER_ABI_VERSION);
+        fprintf(stdout, "Version: %d.%d.%d (%d)\n\n  Copyright (c) 2011 Stephan Jorek <stephan.jorek@gmail.com>\n  Copyright (c) 2009 Chase Douglas\n", MEDIACASTSEGMENTER_MAJOR_VERSION, MEDIACASTSEGMENTER_MINOR_VERSION, MEDIACASTSEGMENTER_RELEASE_NUMBER, MEDIACASTSEGMENTER_ABI_VERSION);
         exit(0);
     }
 
@@ -235,7 +236,7 @@ int main(int argc, char **argv)
         exit(1);
     }
 
-    ret = av_open_input_file(&ic, input, ifmt, 0, NULL);
+    ret = avformat_open_input(&ic, input, ifmt, NULL);
     if (ret != 0) {
         fprintf(stderr, "Could not open input file, make sure it is an mpegts file: %d\n", ret);
         exit(1);
@@ -282,13 +283,14 @@ int main(int argc, char **argv)
                 break;
         }
     }
-
+/*
     if (av_set_parameters(oc, NULL) < 0) {
         fprintf(stderr, "Invalid output format parameters\n");
         exit(1);
     }
+*/
 
-    dump_format(oc, 0, output_prefix, 1);
+    av_dump_format(oc, 0, output_prefix, 1);
 
     codec = avcodec_find_decoder(video_st->codec->codec_id);
     if (!codec) {
@@ -306,12 +308,12 @@ int main(int argc, char **argv)
     }
 
     snprintf(output_filename, strlen(output_prefix) + 15, "%s-%u.ts", output_prefix, output_index++);
-    if (url_fopen(&oc->pb, output_filename, URL_WRONLY) < 0) {
+    if (avio_open(&oc->pb, output_filename, URL_WRONLY) < 0) {
         fprintf(stderr, "Could not open '%s'\n", output_filename);
         exit(1);
     }
 
-    if (av_write_header(oc)) {
+    if (avformat_write_header(oc, NULL)) {
         fprintf(stderr, "Could not write mpegts header to first output file\n");
         exit(1);
     }
@@ -356,8 +358,8 @@ int main(int argc, char **argv)
         }
 
         if (segment_time - prev_segment_time >= segment_duration) {
-            put_flush_packet(oc->pb);
-            url_fclose(oc->pb);
+            avio_flush(oc->pb);
+            avio_close(oc->pb);
 
             if (max_tsfiles && (int)(last_segment - first_segment) >= max_tsfiles - 1) {
                 remove_file = 1;
@@ -377,7 +379,7 @@ int main(int argc, char **argv)
             }
 
             snprintf(output_filename, strlen(output_prefix) + 15, "%s-%u.ts", output_prefix, output_index++);
-            if (url_fopen(&oc->pb, output_filename, URL_WRONLY) < 0) {
+            if (avio_open(&oc->pb, output_filename, URL_WRONLY) < 0) {
                 fprintf(stderr, "Could not open '%s'\n", output_filename);
                 break;
             }
@@ -407,7 +409,7 @@ int main(int argc, char **argv)
         av_freep(&oc->streams[i]);
     }
 
-    url_fclose(oc->pb);
+    avio_close(oc->pb);
     av_free(oc);
 
     if (max_tsfiles && (int)(last_segment - first_segment) >= max_tsfiles - 1) {
