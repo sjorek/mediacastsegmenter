@@ -2,8 +2,8 @@ Mediacast-Segmenter
 ===================
 
 This is a commandline tool to create MPEG2-TS encapsulated stream-segments,
-as described in http://en.wikipedia.org/wiki/HTTP_Live_Streaming and
-documented in http://tools.ietf.org/html/draft-pantos-http-live-streaming-07 .
+as described in [HTTP Live Streaming](http://en.wikipedia.org/wiki/HTTP_Live_Streaming)
+and documented in [RFC 8216](https://tools.ietf.org/html/rfc8216) .
 
 
 What does it do ?
@@ -16,7 +16,7 @@ It is build upon the fabulous “libav” and thus it should compile and run on
 all systems supported by “libav”.  The current build is optimized for
 Mac OS X 10.6.x and MacPort's “libav”.
 
-The sources are derived from http://svn.assembla.com/svn/legend/segmenter/
+The sources are derived from [Assembla](http://svn.assembla.com/svn/legend/segmenter/)
 and have been updated since then, in order to reflect latest “libav” changes.
 
 
