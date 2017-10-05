@@ -43,4 +43,4 @@ Run `mediacastsegmenter` to get a detailed commandline parameter-list.
 License
 =======
 
-Everything is released under GPL 2 - see COPYING.
+Everything is released under GPL 2 - see [LICENSE](https://github.com/sjorek/mediacastsegmenter/blob/master/LICENSE).
